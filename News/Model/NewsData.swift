@@ -20,7 +20,7 @@ class NewsData: Comparable {
     var enclosure = ""
     var guid = ""
     var category = ""
-    
+    var imageLink = ""
     
     
 }

@@ -1,5 +1,4 @@
 import UIKit
-import Alamofire
 
 
 class NewsTableViewController: UIViewController, UITableViewDataSource,UITableViewDelegate, ParserDelegate {
@@ -39,8 +38,16 @@ class NewsTableViewController: UIViewController, UITableViewDataSource,UITableVi
             myCell.title.textColor = news[indexPath.row].alreadySeen ? .gray : .black
             myCell.sourseLabel.text = "Источник: \(news[indexPath.row].author)"
             myCell.sourseLabel.textColor = news[indexPath.row].alreadySeen ? .gray : .black
+            if let url = URL(string: news[indexPath.row].imageLink) {
+                _ = ImageFetcher(url: url, handler: { (url, image) in
+                    DispatchQueue.main.async {
+                        myCell.picture?.image = image
+                    }
+                })
 
-        }
+            }
+            }
+        
         return cell
     }
     
@@ -81,4 +88,13 @@ class NewsTableViewController: UIViewController, UITableViewDataSource,UITableVi
             self.refreshControl.endRefreshing()
         }
     }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let cell = sender as? NewsTableViewCell,let indexPath = tableView.indexPath(for: cell),let destinationVC = segue.destination as? NewsViewController, segue.identifier == "showNews" {
+            destinationVC.newsData = news[indexPath.row]
+        }
+    }
+    
+    
 }

@@ -11,4 +11,5 @@ struct Tags {
     static let category = "category"
     static let item = "item"
     static let rss = "rss"
+    static let channel = "channel"
 }
