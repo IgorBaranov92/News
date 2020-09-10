@@ -13,6 +13,7 @@ class NewsViewController: UIViewController {
         super.viewDidLoad()
         titleLabel.text = newsData.title
         textView.text = newsData.description
+        dateLabel.text = "Дата публикации: \(newsData.pubDate.string)"
         print(newsData.description)
     }
     

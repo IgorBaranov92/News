@@ -17,14 +17,16 @@ class NewsTableViewController: UIViewController, UITableViewDataSource,UITableVi
         updateNews()
         tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(updateNews), for: .valueChanged)
+        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: NSNotification.Name(rawValue: Constants.shouldHideSources), object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let currentIndexPath = currentIndexPath {
             tableView.reloadRows(at: [currentIndexPath], with: .none)
+            }
         }
-    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return news.count
@@ -42,10 +44,8 @@ class NewsTableViewController: UIViewController, UITableViewDataSource,UITableVi
                 _ = ImageFetcher(url: url, handler: { (url, image) in
                     DispatchQueue.main.async {
                         myCell.picture?.image = image
-                    }
-                })
-
-            }
+                    }})}
+            myCell.sourseLabel.isHidden = !UserDefaults.standard.bool(forKey: Constants.shouldHideSources)
             }
         
         return cell
@@ -62,20 +62,23 @@ class NewsTableViewController: UIViewController, UITableViewDataSource,UITableVi
     }
     
     @objc private func updateNews() {
-        news.removeAll()
-        DispatchQueue.global(qos: .userInitiated).async {
-            for index in Sources.sources.indices {
-                if let url = URL(string: Sources.sources[index]) {
-                let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                guard let data = data, error == nil else { return }
-                let parser = NewsParser(data:data)
-                parser.delegate = self
-                self.news = parser.parse()
-                }
-                    task.resume()
+        //ºnews.removeAll()
+        tableView.performBatchUpdates({
+            DispatchQueue.global(qos: .userInitiated).async {
+                for index in Sources.sources.indices {
+                    if let url = URL(string: Sources.sources[index]) {
+                    let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                    guard let data = data, error == nil else { return }
+                    let parser = NewsParser(data:data)
+                    parser.delegate = self
+                    self.news = parser.parse()
+                    }
+                        task.resume()
+                    }
                 }
             }
-        }
+        })
+        
         
     }
 
@@ -96,5 +99,8 @@ class NewsTableViewController: UIViewController, UITableViewDataSource,UITableVi
         }
     }
     
+    @objc private func refresh() {
+        tableView.reloadData()
+    }
     
 }

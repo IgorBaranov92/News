@@ -13,6 +13,7 @@ class NewsParser: NSObject, XMLParserDelegate {
     private var last = false
     
     init(data:Data,last:Bool = false) {
+        news.removeAll()
         parser = XMLParser(data: data)
     }
 
@@ -50,6 +51,8 @@ class NewsParser: NSObject, XMLParserDelegate {
             newsData?.link = xmlText
         case Tags.description:
             newsData?.description = xmlText.trimmingCharacters(in: .whitespacesAndNewlines)
+        case Tags.pubDate:
+            newsData?.pubDate = xmlText.date
         case Tags.item:
             if let newsData = newsData {
                 news.append(newsData)
@@ -69,6 +72,26 @@ class NewsParser: NSObject, XMLParserDelegate {
 
 }
 
+
 protocol ParserDelegate: class {
     func finishParsing()
+}
+
+
+extension  String {
+    var date: Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
+        let date = dateFormatter.date(from: self)
+        return date ?? Date()
+    }
+}
+
+extension Date {
+    var string: String {
+        let df = DateFormatter()
+        df.dateFormat = "dd.MM.yyyy hh:mm"
+        let str = df.string(from: self)
+        return str
+    }
 }

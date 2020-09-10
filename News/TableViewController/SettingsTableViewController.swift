@@ -12,6 +12,7 @@ class SettingsTableViewController: NonEditableTableViewController {
     
     @IBAction func toggle(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: Constants.shouldHideSources)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.shouldHideSources), object: nil)
     }
    
    
