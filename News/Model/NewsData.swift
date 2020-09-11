@@ -21,6 +21,6 @@ class NewsData: Comparable {
     var guid = ""
     var category = ""
     var imageLink = ""
-    
+    var imageData: Data?
     
 }

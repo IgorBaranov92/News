@@ -40,11 +40,7 @@ class NewsTableViewController: UIViewController, UITableViewDataSource,UITableVi
             myCell.title.textColor = news[indexPath.row].alreadySeen ? .gray : .black
             myCell.sourseLabel.text = "Источник: \(news[indexPath.row].author)"
             myCell.sourseLabel.textColor = news[indexPath.row].alreadySeen ? .gray : .black
-            if let url = URL(string: news[indexPath.row].imageLink) {
-                _ = ImageFetcher(url: url, handler: { (url, image) in
-                    DispatchQueue.main.async {
-                        myCell.picture?.image = image
-                    }})}
+            myCell.url = URL(string:news[indexPath.row].imageLink )
             myCell.sourseLabel.isHidden = !UserDefaults.standard.bool(forKey: Constants.shouldHideSources)
             }
         
@@ -62,29 +58,31 @@ class NewsTableViewController: UIViewController, UITableViewDataSource,UITableVi
     }
     
     @objc private func updateNews() {
-        //ºnews.removeAll()
-        tableView.performBatchUpdates({
-            DispatchQueue.global(qos: .userInitiated).async {
-                for index in Sources.sources.indices {
-                    if let url = URL(string: Sources.sources[index]) {
-                    let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                    guard let data = data, error == nil else { return }
-                    let parser = NewsParser(data:data)
-                    parser.delegate = self
-                    self.news = parser.parse()
-                    }
-                        task.resume()
-                    }
+        let group = DispatchGroup()
+        group.enter()
+        DispatchQueue.global(qos: .userInitiated).sync {
+            for index in Sources.sources.indices {
+                if let url = URL(string: Sources.sources[index]) {
+                let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                guard let data = data, error == nil else { return }
+                let parser = NewsParser(data:data)
+                parser.delegate = self
+                self.news += parser.parse()
+                }
+                    task.resume()
                 }
             }
-        })
-        
+            group.leave()
+        }
+        group.notify(queue: .main, execute: finishParsing)
         
     }
 
 
     func finishParsing() {
+        print("finish")
         DispatchQueue.main.async {
+            self.news.sort()
             print(self.news.count)
             self.tableView.reloadData()
             self.spinner.stopAnimating()

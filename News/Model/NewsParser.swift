@@ -44,11 +44,11 @@ class NewsParser: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         switch elementName {
         case Tags.title:
-            newsData?.title = xmlText
+            newsData?.title = xmlText.trimmingCharacters(in: .whitespacesAndNewlines)
             if channel?.title == nil { channel?.title = xmlText }
             newsData?.author = channel?.title ?? ""
         case Tags.link:
-            newsData?.link = xmlText
+            newsData?.link = xmlText.trimmingCharacters(in: .whitespacesAndNewlines)
         case Tags.description:
             newsData?.description = xmlText.trimmingCharacters(in: .whitespacesAndNewlines)
         case Tags.pubDate:
@@ -58,7 +58,6 @@ class NewsParser: NSObject, XMLParserDelegate {
                 news.append(newsData)
             }
         case Tags.rss:
-               // news = news.sorted()
                 delegate?.finishParsing()
         default:break
         }
@@ -90,7 +89,7 @@ extension  String {
 extension Date {
     var string: String {
         let df = DateFormatter()
-        df.dateFormat = "dd.MM.yyyy hh:mm"
+        df.dateFormat = "dd.MM.yyyy HH:mm"
         let str = df.string(from: self)
         return str
     }
