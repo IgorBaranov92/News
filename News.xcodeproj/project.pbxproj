@@ -23,9 +23,12 @@
 		78CC728E25090570000F6554 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC728D25090570000F6554 /* SettingsTableViewController.swift */; };
 		78CC7290250905E1000F6554 /* UpdateIntervalTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC728F250905E1000F6554 /* UpdateIntervalTableViewController.swift */; };
 		78CC72922509061E000F6554 /* UpdateIntervalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC72912509061E000F6554 /* UpdateIntervalTableViewCell.swift */; };
-		78CC72942509070B000F6554 /* NonEditableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC72932509070B000F6554 /* NonEditableTableViewController.swift */; };
 		78CC729625090B9D000F6554 /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC729525090B9D000F6554 /* NewsTableViewCell.swift */; };
 		78CC729A25091426000F6554 /* ImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CC729925091426000F6554 /* ImageFetcher.swift */; };
+		78D2F34E250BA4FD00DBD76F /* FavoriteNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D2F34D250BA4FD00DBD76F /* FavoriteNewsViewController.swift */; };
+		78D2F350250BA5AD00DBD76F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D2F34F250BA5AD00DBD76F /* TableViewController.swift */; };
+		78D2F352250BA67500DBD76F /* NonEditableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D2F351250BA67500DBD76F /* NonEditableTableViewController.swift */; };
+		78D2F354250BAE7000DBD76F /* Intervals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D2F353250BAE7000DBD76F /* Intervals.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,9 +50,12 @@
 		78CC728D25090570000F6554 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		78CC728F250905E1000F6554 /* UpdateIntervalTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateIntervalTableViewController.swift; sourceTree = "<group>"; };
 		78CC72912509061E000F6554 /* UpdateIntervalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateIntervalTableViewCell.swift; sourceTree = "<group>"; };
-		78CC72932509070B000F6554 /* NonEditableTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonEditableTableViewController.swift; sourceTree = "<group>"; };
 		78CC729525090B9D000F6554 /* NewsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		78CC729925091426000F6554 /* ImageFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFetcher.swift; sourceTree = "<group>"; };
+		78D2F34D250BA4FD00DBD76F /* FavoriteNewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteNewsViewController.swift; sourceTree = "<group>"; };
+		78D2F34F250BA5AD00DBD76F /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		78D2F351250BA67500DBD76F /* NonEditableTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonEditableTableViewController.swift; sourceTree = "<group>"; };
+		78D2F353250BAE7000DBD76F /* Intervals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intervals.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +117,7 @@
 				78643EB2250A15D800E7A589 /* Tags.swift */,
 				782C4805250A29C30038981B /* NewsData.swift */,
 				782C4820250A6E610038981B /* Channel.swift */,
+				78D2F353250BAE7000DBD76F /* Intervals.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -129,10 +136,12 @@
 		78CC7289250901F7000F6554 /* TableViewController */ = {
 			isa = PBXGroup;
 			children = (
+				78D2F34F250BA5AD00DBD76F /* TableViewController.swift */,
 				78CC728B250903E3000F6554 /* NewsTableViewController.swift */,
+				78D2F34D250BA4FD00DBD76F /* FavoriteNewsViewController.swift */,
 				78CC728D25090570000F6554 /* SettingsTableViewController.swift */,
 				78CC728F250905E1000F6554 /* UpdateIntervalTableViewController.swift */,
-				78CC72932509070B000F6554 /* NonEditableTableViewController.swift */,
+				78D2F351250BA67500DBD76F /* NonEditableTableViewController.swift */,
 			);
 			path = TableViewController;
 			sourceTree = "<group>";
@@ -223,14 +232,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				78CC728C250903E3000F6554 /* NewsTableViewController.swift in Sources */,
+				78D2F354250BAE7000DBD76F /* Intervals.swift in Sources */,
 				782C4821250A6E610038981B /* Channel.swift in Sources */,
+				78D2F350250BA5AD00DBD76F /* TableViewController.swift in Sources */,
 				78CC72922509061E000F6554 /* UpdateIntervalTableViewCell.swift in Sources */,
 				78643EB3250A15D800E7A589 /* Tags.swift in Sources */,
 				78CC728E25090570000F6554 /* SettingsTableViewController.swift in Sources */,
-				78CC72942509070B000F6554 /* NonEditableTableViewController.swift in Sources */,
 				78CC7287250901AB000F6554 /* NewsParser.swift in Sources */,
+				78D2F352250BA67500DBD76F /* NonEditableTableViewController.swift in Sources */,
 				782C4806250A29C30038981B /* NewsData.swift in Sources */,
 				78CC726F25090165000F6554 /* AppDelegate.swift in Sources */,
+				78D2F34E250BA4FD00DBD76F /* FavoriteNewsViewController.swift in Sources */,
 				78CC727925090165000F6554 /* News.xcdatamodeld in Sources */,
 				78643EB1250928D900E7A589 /* Constants.swift in Sources */,
 				78CC7290250905E1000F6554 /* UpdateIntervalTableViewController.swift in Sources */,
@@ -384,6 +396,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 36UX7SKY3J;
 				INFOPLIST_FILE = News/Misc/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -402,6 +415,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 36UX7SKY3J;
 				INFOPLIST_FILE = News/Misc/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

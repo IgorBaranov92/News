@@ -3,6 +3,7 @@ import Foundation
 struct Constants {
     
     static let shouldHideSources = "shouldHideSources"
-    static let updateTimeInterval = "updateTimeInterval"
+    static let updateTimeIndex = "updateTimeInterval"
+    static let changeUpdateTime = "changeUpdateTime"
     
 }

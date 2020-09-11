@@ -4,12 +4,6 @@ class UpdateIntervalTableViewController: NonEditableTableViewController {
 
     var duration = [1,2,3,4,5]
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        tableView.cellForRow(at: IndexPath(row: UserDefaults.standard.integer(forKey: Constants.updateTimeInterval), section: 0))?.editingAccessoryType = .checkmark
-    }
-    
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return duration.count
     }
@@ -26,8 +20,14 @@ class UpdateIntervalTableViewController: NonEditableTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        UserDefaults.standard.set(duration[indexPath.row], forKey: Constants.updateTimeInterval)
-        tableView.cellForRow(at: indexPath)?.editingAccessoryType = .checkmark
+        tableView.deselectRow(at: indexPath, animated: true)
+        UserDefaults.standard.set(indexPath.row, forKey: Constants.updateTimeIndex)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.changeUpdateTime), object: nil)
+
     }
     
 }
+
+
+
+

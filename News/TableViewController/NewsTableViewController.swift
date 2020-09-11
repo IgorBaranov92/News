@@ -1,23 +1,19 @@
 import UIKit
 
 
-class NewsTableViewController: UIViewController, UITableViewDataSource,UITableViewDelegate, ParserDelegate {
-
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var spinner: UIActivityIndicatorView!
+class NewsTableViewController: TableViewController, UITableViewDataSource,UITableViewDelegate {
     
     var news = [NewsData]()
    
-    private let refreshControl = UIRefreshControl()
-    private var currentIndexPath: IndexPath?
-    
+    private weak var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         updateNews()
         tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(updateNews), for: .valueChanged)
-        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: NSNotification.Name(rawValue: Constants.shouldHideSources), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateNewsByTimer), name: NSNotification.Name(rawValue: Constants.changeUpdateTime), object: nil)
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -40,7 +36,7 @@ class NewsTableViewController: UIViewController, UITableViewDataSource,UITableVi
             myCell.title.textColor = news[indexPath.row].alreadySeen ? .gray : .black
             myCell.sourseLabel.text = "Источник: \(news[indexPath.row].author)"
             myCell.sourseLabel.textColor = news[indexPath.row].alreadySeen ? .gray : .black
-            myCell.url = URL(string:news[indexPath.row].imageLink )
+            myCell.url = URL(string:news[indexPath.row].imageURL )
             myCell.sourseLabel.isHidden = !UserDefaults.standard.bool(forKey: Constants.shouldHideSources)
             }
         
@@ -59,6 +55,7 @@ class NewsTableViewController: UIViewController, UITableViewDataSource,UITableVi
     
     @objc private func updateNews() {
         news.removeAll()
+        spinner.startAnimating()
         let group = DispatchGroup()
         DispatchQueue.concurrentPerform(iterations: Sources.sources.count) { (index) in
             if let url = URL(string: Sources.sources[index]) {
@@ -66,7 +63,6 @@ class NewsTableViewController: UIViewController, UITableViewDataSource,UITableVi
                 let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 guard let data = data, error == nil else { return }
                 let parser = NewsParser(data:data)
-                parser.delegate = self
                 self.news += parser.parse()
                 group.leave()
                 }
@@ -79,10 +75,8 @@ class NewsTableViewController: UIViewController, UITableViewDataSource,UITableVi
 
 
     func finishParsing() {
-        print("finish")
         DispatchQueue.main.async {
             self.news.sort()
-            print(self.news.count)
             self.tableView.reloadData()
             self.spinner.stopAnimating()
             self.refreshControl.endRefreshing()
@@ -96,8 +90,10 @@ class NewsTableViewController: UIViewController, UITableViewDataSource,UITableVi
         }
     }
     
-    @objc private func refresh() {
-        tableView.reloadData()
+    
+    @objc private func updateNewsByTimer() {
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(timeInterval: Intervals.intervals[UserDefaults.standard.integer(forKey: Constants.updateTimeIndex)] ?? 60.0, target: self, selector: #selector(updateNews), userInfo: nil, repeats: true)
     }
     
 }

@@ -1,18 +1,15 @@
 import Foundation
 
 class NewsParser: NSObject, XMLParserDelegate {
-    
-    weak var delegate: ParserDelegate?
-    
+        
     private var parser: XMLParser?
     private var xmlText = ""
     private var newsData: NewsData?
     private(set) var channel: Channel?
     
     private(set) var news = [NewsData]()
-    private var last = false
     
-    init(data:Data,last:Bool = false) {
+    init(data:Data) {
         parser = XMLParser(data: data)
     }
 
@@ -32,7 +29,7 @@ class NewsParser: NSObject, XMLParserDelegate {
             channel = Channel()
         case "enclosure":
             if let imageLink = attributeDict["url"] {
-                newsData?.imageLink = imageLink
+                newsData?.imageURL = imageLink
             }
         default:break
         }
@@ -56,8 +53,6 @@ class NewsParser: NSObject, XMLParserDelegate {
             if let newsData = newsData {
                 news.append(newsData)
             }
-        case Tags.rss:
-                delegate?.finishParsing()
         default:break
         }
     }
@@ -70,10 +65,6 @@ class NewsParser: NSObject, XMLParserDelegate {
 
 }
 
-
-protocol ParserDelegate: class {
-    func finishParsing()
-}
 
 
 extension  String {

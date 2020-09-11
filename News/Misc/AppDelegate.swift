@@ -10,8 +10,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UserDefaults.standard.value(forKey: Constants.shouldHideSources) == nil {
             UserDefaults.standard.set(true, forKey: Constants.shouldHideSources)
         }
-        if UserDefaults.standard.value(forKey: Constants.updateTimeInterval) == nil {
-            UserDefaults.standard.set(1, forKey: Constants.updateTimeInterval)
+        if UserDefaults.standard.value(forKey: Constants.updateTimeIndex) == nil {
+            UserDefaults.standard.set(1, forKey: Constants.updateTimeIndex)
         }
         return true
     }
