@@ -13,7 +13,6 @@ class NewsParser: NSObject, XMLParserDelegate {
     private var last = false
     
     init(data:Data,last:Bool = false) {
-        news.removeAll()
         parser = XMLParser(data: data)
     }
 

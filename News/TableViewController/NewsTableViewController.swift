@@ -58,21 +58,20 @@ class NewsTableViewController: UIViewController, UITableViewDataSource,UITableVi
     }
     
     @objc private func updateNews() {
+        news.removeAll()
         let group = DispatchGroup()
-        group.enter()
-        DispatchQueue.global(qos: .userInitiated).sync {
-            for index in Sources.sources.indices {
-                if let url = URL(string: Sources.sources[index]) {
+        DispatchQueue.concurrentPerform(iterations: Sources.sources.count) { (index) in
+            if let url = URL(string: Sources.sources[index]) {
+                group.enter()
                 let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 guard let data = data, error == nil else { return }
                 let parser = NewsParser(data:data)
                 parser.delegate = self
                 self.news += parser.parse()
+                group.leave()
                 }
                     task.resume()
-                }
             }
-            group.leave()
         }
         group.notify(queue: .main, execute: finishParsing)
         
